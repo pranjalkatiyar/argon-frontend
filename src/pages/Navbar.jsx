@@ -86,7 +86,7 @@ const Navbar = () => {
             />
           )}
         </div>
-        {facebooklogin && (
+       
 
           <Link
             to="/imageupload"
@@ -94,7 +94,7 @@ const Navbar = () => {
           >
             Post your fav image
           </Link>
-        )}
+   
       </div>
       <div>
       {isSignedIn && (
