@@ -7,7 +7,7 @@ import { LoginButton } from "react-facebook";
 import { useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom"
 import {useUser} from "@clerk/clerk-react"
-import FacebookLogin from "react-facebook-login";
+import ReactFacebookLogin from "react-facebook-login";
 
 
 const SignOutButton = () => {
@@ -77,7 +77,7 @@ const Navbar = () => {
             Edit
           </Link>
           {isSignedIn && (
-            <FacebookLogin
+            <ReactFacebookLogin
             appId="1472217970017724"
             autoLoad={false}
             fields="name,email,picture"
