@@ -13,7 +13,8 @@ import axios from "axios";
 import Resume from "./pages/Resume";
 import Skills from "./pages/Skills";
 import Preview from "./pages/Preview";
-import Navbar from "./pages/Navbar";
+ import Navbar from "./pages/Navbar";
+import Home from "./pages/Home";
 import {
   FacebookProvider,
   LoginButton,
@@ -21,6 +22,7 @@ import {
   ShareButton,
 } from "react-facebook";
 import ImageUpload from "./pages/ImageUpload";
+import Login from "./pages/Login";
 function PublicPage() {
   function handleSuccess(response) {
     console.log(response.status);
@@ -48,12 +50,13 @@ function ProtectedPage() {
 function ClerkProviderWithRoutes() {
   const navigate = useNavigate();
   const [allResumeData, setResumeData] = useState([]);
+  
 
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<PublicPage />} />
+        <Route path="/" element={<Home />} />
         <Route
           path="/preview"
           element={
@@ -62,7 +65,7 @@ function ClerkProviderWithRoutes() {
                 <Preview allResumeData={allResumeData} />
               </SignedIn>
               <SignedOut>
-                <RedirectToSignIn />
+                <Home/>
               </SignedOut>
             </>
           }
@@ -75,14 +78,14 @@ function ClerkProviderWithRoutes() {
                 <ImageUpload />
               </SignedIn>
               <SignedOut>
-                <RedirectToSignIn />
+                <Home />
               </SignedOut>
             </>
           }
         />
         <Route
-          path="/sign-in/*"
-          element={<SignIn routing="path" path="/sign-in" />}
+          path="/login/*"
+          element={<Login/>}
         />
         <Route
           path="/sign-up/*"

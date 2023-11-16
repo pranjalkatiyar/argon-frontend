@@ -53,7 +53,7 @@ const Resume = ({ setResumeData }) => {
   useEffect(() => {
     async function userDetailsSave() {
       console.log("backend saving data");
-      const data = await axios.post(`https://argon-backend.onrender.com/local/signup`, {
+      const data = await axios.post(`http://localhost:4000/local/signup`, {
         first_name: user?.firstName,
         last_name: user?.lastName,
         email: user?.emailAddresses[0]?.emailAddress,
@@ -72,9 +72,22 @@ const Resume = ({ setResumeData }) => {
   useEffect(() => {
     async function getResumeProfile() {
       let profile = await axios.get(
-        `https://argon-backend.onrender.com/user/profile/${user.id}`
+        `http://localhost:4000/user/profile/${user.id}`
       );
       profile = profile.data.profile;
+      console.log(profile);
+
+      setPersonalDetails(() => {
+        let newPersonalDetails = {
+          fullName: profile?.fullName,
+          phoneNumber: profile?.phone_number,
+          username: profile?.username,
+          email: profile?.email,
+          description: profile?.description,
+        };
+        return newPersonalDetails;
+      });
+
       console.log(profile);
       setEducationDetails(() => {
         let newEducationDetails = profile?.education
@@ -172,27 +185,13 @@ const Resume = ({ setResumeData }) => {
   const handleSave = async () => {
     try {
       console.log(skills);
-      const data = await axios.post(`https://argon-backend.onrender.com/user/update`, {
+      const data = await axios.post(`http://localhost:4000/user/update`, {
         personalDetails,
         educationDetails,
         experienceDetails,
         skills,
       });
       console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handlelogout = async () => {
-    try {
-      const logout = await axios.get(`https://argon-backend.onrender.com/auth/logout`);
-      if (logout.data.success) {
-        if (cookie.get("authorizationToken")) {
-          cookie.remove("authorizationToken");
-        }
-      }
-      window.location.href = "/login";
     } catch (err) {
       console.log(err);
     }
@@ -243,6 +242,12 @@ const Resume = ({ setResumeData }) => {
                       id="full_name"
                       class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                       value={personalDetails.fullName}
+                      onChange={(e) =>
+                        setPersonalDetails({
+                          ...personalDetails,
+                          fullName: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div class="md:col-span-2">
@@ -256,6 +261,12 @@ const Resume = ({ setResumeData }) => {
                       class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                       value={personalDetails.phoneNumber}
                       placeholder="Phone Number"
+                      onChange={(e) =>
+                        setPersonalDetails({
+                          ...personalDetails,
+                          phoneNumber: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div class="md:col-span-2">
@@ -266,9 +277,10 @@ const Resume = ({ setResumeData }) => {
                       type="text"
                       name="full_name"
                       id="full_name"
-                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      class="h-10 border mt-1 rounded px-4 w-full bg-gray-300"
                       value={personalDetails.username}
                       placeholder="username"
+                      disabled={true}
                     />
                   </div>
 
@@ -283,6 +295,12 @@ const Resume = ({ setResumeData }) => {
                       class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                       value={personalDetails.email}
                       placeholder="email@domain.com"
+                      onChange={(e) =>
+                        setPersonalDetails({
+                          ...personalDetails,
+                          email: e.target.value,
+                        })
+                      }
                     />
                   </div>
 
@@ -301,7 +319,8 @@ const Resume = ({ setResumeData }) => {
                         setPersonalDetails({
                           ...personalDetails,
                           description: e.target.value,
-                        })}
+                        })
+                      }
                     />
                   </div>
                 </div>

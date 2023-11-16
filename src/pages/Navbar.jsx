@@ -4,6 +4,21 @@ import { UserButton } from "@clerk/clerk-react";
 import { FacebookProvider, ShareButton } from "react-facebook";
 import { useState } from "react";
 import { LoginButton } from "react-facebook";
+import { useClerk } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom"
+import {useUser} from "@clerk/clerk-react"
+
+const SignOutButton = () => {
+  const { signOut } = useClerk();
+  const navigate = useNavigate()
+ 
+  return (
+    // Clicking on this button will sign out a user and reroute them to the "/" (home) page.
+    <button onClick={() => signOut(() => navigate("/"))}>
+      Sign out
+    </button>
+  );
+};
 
 const Navbar = () => {
   const location = useLocation();
@@ -14,6 +29,7 @@ const Navbar = () => {
   };
 
   const [facebooklogin, setfacebooklogin] = useState(false);
+  const {isSignedIn,user} = useUser();
 
   function handleSuccess(response) {
     console.log(response);
@@ -51,16 +67,18 @@ const Navbar = () => {
           >
             Edit
           </Link>
-          <FacebookProvider appId="1472217970017724">
-            <LoginButton
-              scope="email"
-              onError={handleError}
-              onSuccess={handleSuccess}
-              color="blue"
-            >
-              Share on Facebook
-            </LoginButton>
-          </FacebookProvider>
+          {isSignedIn && (
+            <FacebookProvider appId="1472217970017724">
+              <LoginButton
+                scope="email"
+                onError={handleError}
+                onSuccess={handleSuccess}
+                color="blue"
+              >
+                Share on Facebook
+              </LoginButton>
+            </FacebookProvider>
+          )}
         </div>
         {facebooklogin && (
           <Link
@@ -72,7 +90,13 @@ const Navbar = () => {
         )}
       </div>
       <div>
-        <UserButton />
+      {isSignedIn && (
+        <div className="flex items-center">
+            <span className="mr-2 font-bold text-white">Welcome, {user.fullName}</span>
+            <SignOutButton className="bg-white-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md" />
+        </div>
+      )}
+
       </div>
     </nav>
   );
