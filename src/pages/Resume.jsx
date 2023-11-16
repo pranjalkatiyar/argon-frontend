@@ -53,7 +53,7 @@ const Resume = ({ setResumeData }) => {
   useEffect(() => {
     async function userDetailsSave() {
       console.log("backend saving data");
-      const data = await axios.post(`http://localhost:4000/local/signup`, {
+      const data = await axios.post(`https://argon-backend.onrender.com/local/signup`, {
         first_name: user?.firstName,
         last_name: user?.lastName,
         email: user?.emailAddresses[0]?.emailAddress,
@@ -72,7 +72,7 @@ const Resume = ({ setResumeData }) => {
   useEffect(() => {
     async function getResumeProfile() {
       let profile = await axios.get(
-        `http://localhost:4000/user/profile/${user.id}`
+        `https://argon-backend.onrender.com/user/profile/${user.id}`
       );
       profile = profile.data.profile;
       console.log(profile);
@@ -185,7 +185,7 @@ const Resume = ({ setResumeData }) => {
   const handleSave = async () => {
     try {
       console.log(skills);
-      const data = await axios.post(`http://localhost:4000/user/update`, {
+      const data = await axios.post(`https://argon-backend.onrender.com/user/update`, {
         personalDetails,
         educationDetails,
         experienceDetails,
