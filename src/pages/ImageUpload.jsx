@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Image } from "cloudinary-react";
-import {FacebookShareButton} from "react-share"
+import { FacebookShareButton } from "react-share";
 
-const REACT_APP_CLOUDINARY_API_KEY = "975848556871956";
-const REACT_APP_CLOUDINARY_CLOUD_NAME = "dfpupgfcz";
-const REACT_APP_CLOUDINARY_API_SECRET = "AV4XfZPcWjOLpD726crohV3E6dU";
-const REACT_APP_CLOUDINARY_UPLOAD_PRESET = "mt3fqfsj";
+console.log(
+  import.meta.env.VITE_REACT_APP_CLOUDINARY_CLOUD_NAME,
+  import.meta.env.VITE_REACT_APP_CLOUDINARY_UPLOAD_PRESET,
+  import.meta.env.VITE_REACT_APP_CLOUDINARY_API_KEY
+);
 
 const ImageUpload = () => {
   const [image, setImage] = useState(null);
@@ -17,16 +18,24 @@ const ImageUpload = () => {
     setLoading(true);
     const data = new FormData();
     data.append("file", image);
-    data.append("upload_preset", REACT_APP_CLOUDINARY_UPLOAD_PRESET);
-    data.append("cloud_name", REACT_APP_CLOUDINARY_CLOUD_NAME);
+    data.append(
+      "upload_preset",
+      import.meta.env.VITE_REACT_APP_CLOUDINARY_UPLOAD_PRESET
+    );
+    data.append(
+      "cloud_name",
+      import.meta.env.VITE_REACT_APP_CLOUDINARY_CLOUD_NAME
+    );
     data.append("folder", "Cloudinary-React");
 
     try {
       const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        `https://api.cloudinary.com/v1_1/${
+          import.meta.env.VITE_REACT_APP_CLOUDINARY_CLOUD_NAME
+        }/image/upload`,
         {
           method: "POST",
-          body: data
+          body: data,
         }
       );
       const res = await response.json();
@@ -101,8 +110,10 @@ const ImageUpload = () => {
           </div>
         ) : (
           url && (
-            <div className="pb-8 pt-4">
-      <FacebookShareButton url={url}>Share</FacebookShareButton>
+            <div className="pb-8 pt-4 center">
+              <FacebookShareButton url={url}>
+                <h1 className="text-2xl font-bold text-blue-200 mb-4 bg-gray-700 px-6 py-2 center rounded-lg">Share</h1>
+              </FacebookShareButton>
             </div>
           )
         )}
