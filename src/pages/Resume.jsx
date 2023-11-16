@@ -190,7 +190,7 @@ const Resume = ({ setResumeData }) => {
   const handleSave = async () => {
     try {
       console.log(skills);
-      const data = await axios.post(`http://localhost:4000/user/update`, {
+      const data = await axios.post(`https://argon-backend.onrender.com/user/update`, {
         personalDetails,
         educationDetails,
         experienceDetails,
