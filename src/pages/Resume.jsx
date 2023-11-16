@@ -13,6 +13,10 @@ import { useState, useEffect } from "react";
 import Experience from "./Experience";
 import Education from "./Education";
 import Skills from "./Skills";
+import React from 'react';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Resume = ({ setResumeData }) => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -79,6 +83,7 @@ const Resume = ({ setResumeData }) => {
 
       setPersonalDetails(() => {
         let newPersonalDetails = {
+          id: user?.id,
           fullName: profile?.fullName,
           phoneNumber: profile?.phone_number,
           username: profile?.username,
@@ -185,12 +190,17 @@ const Resume = ({ setResumeData }) => {
   const handleSave = async () => {
     try {
       console.log(skills);
-      const data = await axios.post(`https://argon-backend.onrender.com/user/update`, {
+      const data = await axios.post(`http://localhost:4000/user/update`, {
         personalDetails,
         educationDetails,
         experienceDetails,
         skills,
       });
+      if(data.status===200){
+        toast.success('Saved Successfully');
+      }else{
+        toast.error('Error Occured');
+      }
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -382,6 +392,7 @@ const Resume = ({ setResumeData }) => {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };

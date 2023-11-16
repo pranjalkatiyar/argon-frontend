@@ -60,22 +60,22 @@ const Navbar = () => {
       </div>
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div className="text-sm lg:flex-grow">
-          <Link
+         {isSignedIn && <Link
             to="/preview"
             className={`block mt-4 lg:inline-block lg:mt-0 ${isActive(
               "/preview"
             )} mr-4`}
           >
             Preview
-          </Link>
-          <Link
+          </Link>}
+          {isSignedIn && <Link
             to="/edit"
             className={`block mt-4 lg:inline-block lg:mt-0 ${isActive(
               "/edit"
             )} mr-4`}
           >
             Edit
-          </Link>
+          </Link>}
           {isSignedIn && (
             <ReactFacebookLogin
             appId="1472217970017724"
@@ -88,12 +88,12 @@ const Navbar = () => {
         </div>
        
 
-          <Link
+        {isSignedIn &&  <Link
             to="/imageupload"
             className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
           >
             Post your fav image
-          </Link>
+          </Link>}
    
       </div>
       <div>
