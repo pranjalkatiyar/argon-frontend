@@ -7,6 +7,8 @@ import { LoginButton } from "react-facebook";
 import { useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom"
 import {useUser} from "@clerk/clerk-react"
+import ReactFacebookLogin from "react-facebook-login";
+
 
 const SignOutButton = () => {
   const { signOut } = useClerk();
@@ -34,6 +36,13 @@ const Navbar = () => {
   function handleSuccess(response) {
     console.log(response);
     if (response.status === "connected") {
+      setfacebooklogin(true);
+    }
+  }
+
+  const responseFacebook = (response) => {
+    if(response.id)
+    {
       setfacebooklogin(true);
     }
   }
@@ -68,20 +77,16 @@ const Navbar = () => {
             Edit
           </Link>
           {isSignedIn && (
-            <FacebookProvider appId="1472217970017724">
-              <LoginButton
-                scope="email"
-                onError={handleError}
-                onSuccess={handleSuccess}
-                color="blue"
-              >
-                Share on Facebook
-              </LoginButton>
-            </FacebookProvider>
+            <ReactFacebookLogin
+            appId="1472217970017724"
+            autoLoad={true}
+            fields="name,email,picture"
+             callback={responseFacebook} 
+            />
           )}
         </div>
         {facebooklogin && (
-          
+
           <Link
             to="/imageupload"
             className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
