@@ -1,6 +1,13 @@
 import React from 'react'
 
 const Experience = ({experienceDetails,setExperienceDetails,addMoreExperience}) => {
+
+  const handleDeleteExperience = (index) => {
+    const newExperienceDetails = [...experienceDetails];
+    newExperienceDetails.splice(index, 1);
+    setExperienceDetails(newExperienceDetails);
+  };
+
   return (
     <div class="md:col-span-5">
     {experienceDetails?.map((experience, index) => (

@@ -5,6 +5,13 @@ const Education = ({
   addMoreEducation,
   setEducationDetails,
 }) => {
+
+  const handleDeleteEducation = (index) => {
+    const newEducationDetails = [...educationDetails];
+    newEducationDetails.splice(index, 1);
+    setEducationDetails(newEducationDetails);
+  };
+
   return (
     <div class="md:col-span-5">
       {educationDetails?.map((education, index) => (
